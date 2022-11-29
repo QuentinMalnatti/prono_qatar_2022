@@ -1,0 +1,14 @@
+<html>
+<head>
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h3>Pronostics Coupe du Monde</h3>
+    <form action="http://127.0.0.1:5000">
+        <input type="submit" value="Go to ranking" />
+    </form>
+    <h2>Pronostics</h2>
+    {{data | safe}}
+    {{res | safe}}
+</body>
+</html>
