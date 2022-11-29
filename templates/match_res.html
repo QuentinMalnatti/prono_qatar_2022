@@ -1,0 +1,22 @@
+<html>
+<head>
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h3>Pronostics Coupe du Monde</h3>
+    <h2>Résultats des Matches</h2>
+    <form action="http://127.0.0.1:5000">
+        <input type="submit" value="Voir le classement" />
+    </form>
+    <form method="POST">
+        <select name=matches action="/">
+            {% for match in matches %}
+                <option value="{{match}}" SELECTED>{{match}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="res" value="{{ request.form['RES'] }}">
+        <input type="submit" name="set_res" value="Valider">
+    </form>
+    {{res | safe}}
+</body>
+</html>

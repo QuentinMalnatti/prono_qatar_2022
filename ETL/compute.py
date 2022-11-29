@@ -1,5 +1,6 @@
 from ETL.extractor import Extractor
 from ETL.transformator import TransformForDisplay, TransformForComputeRanking
+from ETL.loader import Loader
 
 
 class Compute(object):
@@ -17,6 +18,12 @@ class Compute(object):
     def __extract_res(self):
         self.__res = Extractor.extract_res()
 
+    def get_matches(self):
+        return list(self.__res["Pseudo"])
+
+    def set_match_res(self, match_info):
+        self.__res.loc[self.__res["Pseudo"] == match_info["matches"], "Verite"] = match_info["res"]
+
     def create_prono_display(self):
         return TransformForDisplay.transform(self.__prono.copy())
 
@@ -25,3 +32,6 @@ class Compute(object):
 
     def compute_ranking(self):
         return TransformForComputeRanking.transform(self.__prono, self.__res)
+
+    def load_res(self):
+        Loader.load(self.__res)

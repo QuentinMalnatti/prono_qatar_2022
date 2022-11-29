@@ -29,7 +29,7 @@ class Extractor(object):
 
     @classmethod
     def extract_res(cls):
-        df = pd.read_csv(cls.FILE_PATH_RES, dtype={"Verite": 'Int64'})
+        df = pd.read_csv(cls.FILE_PATH_RES, dtype='Int64')
         df = df.transpose().reset_index()
         df.columns = ["Pseudo", "Verite"]
         return df

@@ -5,7 +5,10 @@
 <body>
     <h3>Pronostics Coupe du Monde</h3>
     <form action="http://127.0.0.1:5000">
-        <input type="submit" value="Go to ranking" />
+        <input type="submit" value="Voir le classement" />
+    </form>
+    <form action="http://127.0.0.1:5000/match_res">
+        <input type="submit" value="Ajouter ou modifier un résultat" />
     </form>
     <h2>Pronostics</h2>
     {{data | safe}}
