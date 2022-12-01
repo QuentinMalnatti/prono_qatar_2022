@@ -22,7 +22,8 @@ class Compute(object):
         return list(self.__res["Pseudo"])
 
     def set_match_res(self, match_info):
-        self.__res.loc[self.__res["Pseudo"] == match_info["matches"], "Verite"] = match_info["res"]
+
+        self.__res.loc[self.__res["Pseudo"] == match_info["matches"], "Verite"] = int(match_info["res"])
 
     def create_prono_display(self):
         return TransformForDisplay.transform(self.__prono.copy())

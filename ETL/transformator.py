@@ -34,7 +34,7 @@ class TransformForComputeRanking(object):
 
     @staticmethod
     def __compute_score(df_ranking):
-        df_score = pd.DataFrame(columns=["Ecart_score", "score_exact", "resultat_correct", "nombre_buts_corrects", "ratio_reussite", "total_points"], index=df_ranking.drop(columns=["Verite"]).columns)
+        df_score = pd.DataFrame(columns=["Ecart_score", "score_exact", "resultat_correct", "nombre_buts_corrects", "ratio_reussite"], index=df_ranking.drop(columns=["Verite"]).columns)
 
         for col in df_ranking.columns:
             if col != "Verite":
@@ -58,7 +58,6 @@ class TransformForComputeRanking(object):
 
                 df_score.loc[col, "ratio_reussite"] = df_score.loc[col, "resultat_correct"] / (len(idx_to_consider) / 2)
                 df_score.loc[col, "score"] = df_score.loc[col, "resultat_correct"] * 3 + df_score.loc[col, "Ecart_score"] + df_score.loc[col, "score_exact"] + df_score.loc[col, "nombre_buts_corrects"] * 0.5
-
-        df_score["total_points"] = df_score.resultat_correct * 3 + df_score.Ecart_score + df_score.score_exact + df_score.nombre_buts_corrects * 0.5
-        df_score["rang"] = df_score.total_points.sort_values(ascending=False).rank(ascending=False)
+                df_score.loc[col, "score_normalise"] = df_score.loc[col, "score"] / (len(idx_to_consider) / 2)
+        df_score["rang"] = df_score.score_normalise.sort_values(ascending=False).rank(ascending=False)
         return df_score.sort_values(by="rang", ascending=True)

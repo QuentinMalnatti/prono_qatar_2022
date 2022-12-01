@@ -7,15 +7,15 @@ class Extractor(object):
     ROOT = os.path.abspath(os.path.dirname(__file__))
     DATA_PATH = os.path.abspath(os.path.join(ROOT, "..", "data"))
 
-    FILENAME_PRONO = "Pronostics.csv"
+    FILENAME_PRONO = "Pronostics_total.csv"
     FILE_PATH_PRONO = os.path.abspath(os.path.join(DATA_PATH, FILENAME_PRONO))
 
-    FILENAME_RES = "Resultats.csv"
+    FILENAME_RES = "Resultats_total.csv"
     FILE_PATH_RES = os.path.abspath(os.path.join(DATA_PATH, FILENAME_RES))
 
     @classmethod
     def extract_prono(cls):
-        df = pd.read_csv(cls.FILE_PATH_PRONO)
+        df = pd.read_csv(cls.FILE_PATH_PRONO,sep=";")
         df = df.drop(columns=["Horodateur"])
         df = df.transpose().reset_index()
         df.columns = df.iloc[0]
@@ -29,7 +29,7 @@ class Extractor(object):
 
     @classmethod
     def extract_res(cls):
-        df = pd.read_csv(cls.FILE_PATH_RES, dtype='Int64')
+        df = pd.read_csv(cls.FILE_PATH_RES, dtype='Int64',sep=";")
         df = df.transpose().reset_index()
         df.columns = ["Pseudo", "Verite"]
         return df
