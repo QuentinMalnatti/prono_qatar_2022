@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import re
 
 
 class TransformForDisplay(object):
@@ -38,26 +39,48 @@ class TransformForComputeRanking(object):
 
         for col in df_ranking.columns:
             if col != "Verite":
-                reponse = (df_ranking[col].replace("", np.nan).dropna()).index
-                passe = (df_ranking["Verite"].dropna()).index
+                score_matchs = [col for col in df_ranking.index if "Score" in col]
+                df_results_matchs = df_ranking.loc[score_matchs]
+                reponse = (df_results_matchs[col].replace("", np.nan).dropna()).index
+                passe = (df_results_matchs["Verite"].dropna()).index
                 idx_to_consider = passe.intersection(reponse)
 
                 ligne_paire = [2 * k for k in range(int(len(idx_to_consider) / 2))]
                 ligne_impaire = [x + 1 for x in ligne_paire]
 
-                df_score.loc[col, "nombre_buts_corrects"] = sum(df_ranking.loc[idx_to_consider, col].astype(int) == df_ranking.loc[idx_to_consider, "Verite"])
-                pred = (df_ranking.loc[idx_to_consider, col].astype(int) - df_ranking.loc[idx_to_consider, col].astype(int).shift(1)).iloc[ligne_impaire]
+                df_score.loc[col, "nombre_buts_corrects"] = sum(
+                    df_results_matchs.loc[idx_to_consider, col].astype(int) == df_results_matchs.loc[
+                        idx_to_consider, "Verite"])
+                pred = (df_results_matchs.loc[idx_to_consider, col].astype(int) - df_results_matchs.loc[
+                    idx_to_consider, col].astype(int).shift(1)).iloc[ligne_impaire]
 
-                truth = (df_ranking.loc[idx_to_consider, "Verite"].astype(int) - df_ranking.loc[idx_to_consider, "Verite"].astype(int).shift(1)).iloc[ligne_impaire]
+                truth = (df_results_matchs.loc[idx_to_consider, "Verite"].astype(int) -
+                         df_results_matchs.loc[idx_to_consider, "Verite"].astype(int).shift(1)
+                         ).iloc[ligne_impaire]
                 df_score.loc[col, "Ecart_score"] = sum(pred == truth)
 
                 df_score.loc[col, "resultat_correct"] = sum(pred * truth > 0) + sum((truth == 0) & (pred == 0))
 
-                df_score.loc[col, "score_exact"] = sum((df_ranking.loc[idx_to_consider, col].astype(int).iloc[ligne_paire] == df_ranking.loc[idx_to_consider, "Verite"].iloc[ligne_paire]).reset_index(drop=True) &
-                                                       (df_ranking.loc[idx_to_consider, col].astype(int).iloc[ligne_impaire] == df_ranking.loc[idx_to_consider, "Verite"].iloc[ligne_impaire]).reset_index(drop=True))
+                df_score.loc[col, "score_exact"] = sum((df_results_matchs.loc[idx_to_consider, col].astype(int).iloc[
+                                                            ligne_paire] ==
+                                                        df_results_matchs.loc[idx_to_consider, "Verite"].iloc[
+                                                            ligne_paire]).reset_index(drop=True) &
+                                                       (df_results_matchs.loc[idx_to_consider, col].astype(int).iloc[
+                                                            ligne_impaire] ==
+                                                        df_results_matchs.loc[idx_to_consider, "Verite"].iloc[
+                                                            ligne_impaire]).reset_index(drop=True))
 
                 df_score.loc[col, "ratio_reussite"] = df_score.loc[col, "resultat_correct"] / (len(idx_to_consider) / 2)
-                df_score.loc[col, "score"] = df_score.loc[col, "resultat_correct"] * 3 + df_score.loc[col, "Ecart_score"] + df_score.loc[col, "score_exact"] + df_score.loc[col, "nombre_buts_corrects"] * 0.5
-                df_score.loc[col, "score_normalise"] = df_score.loc[col, "score"] / (len(idx_to_consider) / 2)
+
+                qualif_matchs = [col for col in df_ranking.index if "Score" not in col]
+                df_qualif = df_ranking.loc[qualif_matchs]
+                df_score.loc[col, "qualif_correcte"] = sum(df_qualif.index.map(
+                    lambda x: re.split(" match | - ", x)[int(df_ranking.fillna(0).loc[x, "Verite"])]) == df_qualif[col])
+
+                df_score.loc[col, "score"] = df_score.loc[col, "resultat_correct"] * 3 + df_score.loc[
+                    col, "Ecart_score"] + df_score.loc[col, "score_exact"] + df_score.loc[
+                                                 col, "nombre_buts_corrects"] * 0.5 + 2 * df_score.loc[
+                                                 col, "qualif_correcte"]
+                df_score.loc[col, "score_normalise"]=df_score.loc[col, "score"]/(len(idx_to_consider) / 2)
         df_score["rang"] = df_score.score_normalise.sort_values(ascending=False).rank(ascending=False)
         return df_score.sort_values(by="rang", ascending=True)

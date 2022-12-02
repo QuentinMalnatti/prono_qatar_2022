@@ -10,7 +10,7 @@ class Extractor(object):
     FILENAME_PRONO = "Pronostics_total.csv"
     FILE_PATH_PRONO = os.path.abspath(os.path.join(DATA_PATH, FILENAME_PRONO))
 
-    FILENAME_RES = "Resultats_total.csv"
+    FILENAME_RES = "Resultats.csv"
     FILE_PATH_RES = os.path.abspath(os.path.join(DATA_PATH, FILENAME_RES))
 
     @classmethod
@@ -29,7 +29,7 @@ class Extractor(object):
 
     @classmethod
     def extract_res(cls):
-        df = pd.read_csv(cls.FILE_PATH_RES, dtype='Int64',sep=";")
+        df = pd.read_csv(cls.FILE_PATH_RES, dtype='Int64')
         df = df.transpose().reset_index()
         df.columns = ["Pseudo", "Verite"]
         return df

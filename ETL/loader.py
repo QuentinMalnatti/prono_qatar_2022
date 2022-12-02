@@ -13,7 +13,7 @@ class Loader(object):
     def load(cls, df):
         df = df.set_index("Pseudo")
         df = df.transpose()
-        df_str = df.to_csv(index=False, line_terminator="\n").encode()
+        df_str = df.to_csv(index=False, lineterminator="\n").encode()
 
         with open(cls.FILE_PATH_RES, mode='wb') as f:
             f.write(df_str)
