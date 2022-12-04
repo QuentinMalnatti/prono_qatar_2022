@@ -8,7 +8,12 @@ with app.app_context():
 
 @app.route('/')
 def compute_ranking():
-    return render_template('ranking.html', data=current_app.config["compute"].compute_ranking())
+    data = current_app.config["compute"].compute_ranking()
+    return render_template('ranking.html',
+                           first=current_app.config["compute"].get_rank(data, 0),
+                           second=current_app.config["compute"].get_rank(data, 1),
+                           third=current_app.config["compute"].get_rank(data, 2),
+                           others=current_app.config["compute"].get_rank(data, 3, True))
 
 
 @app.route('/prono')

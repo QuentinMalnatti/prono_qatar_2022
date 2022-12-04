@@ -8,6 +8,14 @@
         <input type="submit" value="Voir les pronostics" />
     </form>
     <h2>Ranking</h2>
-    {{data | safe}}
+    <div class="rank">
+        {{first | safe}}
+        <br>
+        {{second | safe}}
+        <br>
+        {{third | safe}}
+        <br>
+        {{others | safe}}
+    </div>
 </body>
 </html>

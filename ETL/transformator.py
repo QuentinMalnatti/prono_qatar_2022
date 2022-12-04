@@ -26,7 +26,7 @@ class TransformForComputeRanking(object):
     def transform(cls, df_prono, df_res):
         df_ranking = cls.__add_res(df_prono, df_res)
         df_ranking = cls.__compute_score(df_ranking)
-        return df_ranking.to_html()
+        return df_ranking
 
     @staticmethod
     def __add_res(df_prono, df_res):
@@ -48,11 +48,8 @@ class TransformForComputeRanking(object):
                 ligne_paire = [2 * k for k in range(int(len(idx_to_consider) / 2))]
                 ligne_impaire = [x + 1 for x in ligne_paire]
 
-                df_score.loc[col, "nombre_buts_corrects"] = sum(
-                    df_results_matchs.loc[idx_to_consider, col].astype(int) == df_results_matchs.loc[
-                        idx_to_consider, "Verite"])
-                pred = (df_results_matchs.loc[idx_to_consider, col].astype(int) - df_results_matchs.loc[
-                    idx_to_consider, col].astype(int).shift(1)).iloc[ligne_impaire]
+                df_score.loc[col, "nombre_buts_corrects"] = sum(df_results_matchs.loc[idx_to_consider, col].astype(int) == df_results_matchs.loc[idx_to_consider, "Verite"])
+                pred = (df_results_matchs.loc[idx_to_consider, col].astype(int) - df_results_matchs.loc[idx_to_consider, col].astype(int).shift(1)).iloc[ligne_impaire]
 
                 truth = (df_results_matchs.loc[idx_to_consider, "Verite"].astype(int) -
                          df_results_matchs.loc[idx_to_consider, "Verite"].astype(int).shift(1)

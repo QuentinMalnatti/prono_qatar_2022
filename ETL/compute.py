@@ -1,3 +1,6 @@
+import pandas as pd
+import numpy as np
+
 from ETL.extractor import Extractor
 from ETL.transformator import TransformForDisplay, TransformForComputeRanking
 from ETL.loader import Loader
@@ -20,6 +23,13 @@ class Compute(object):
 
     def get_matches(self):
         return list(self.__res["Pseudo"])
+
+    @classmethod
+    def get_rank(cls, df_rank, i, born_inf=False):
+        if born_inf:
+            return df_rank.iloc[i:, :].to_html()
+        else:
+            return pd.DataFrame().append(df_rank.iloc[i, :]).to_html()
 
     def set_match_res(self, match_info):
         try:
