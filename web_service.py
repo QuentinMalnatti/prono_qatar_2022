@@ -9,11 +9,15 @@ with app.app_context():
 @app.route('/')
 def compute_ranking():
     data = current_app.config["compute"].compute_ranking()
+    r0_name, r0 = current_app.config["compute"].get_rank(data, 0)
+    r1_name, r1 = current_app.config["compute"].get_rank(data, 1)
+    r2_name, r2 = current_app.config["compute"].get_rank(data, 2)
+    r_others_name, r_others = current_app.config["compute"].get_rank(data, 3, True)
     return render_template('ranking.html',
-                           first=current_app.config["compute"].get_rank(data, 0),
-                           second=current_app.config["compute"].get_rank(data, 1),
-                           third=current_app.config["compute"].get_rank(data, 2),
-                           others=current_app.config["compute"].get_rank(data, 3, True))
+                           first_name=r0_name, first=r0,
+                           second_name=r1_name, second=r1,
+                           third_name=r2_name, third=r2,
+                           others_name=r_others_name, others=r_others)
 
 
 @app.route('/prono')

@@ -27,9 +27,10 @@ class Compute(object):
     @classmethod
     def get_rank(cls, df_rank, i, born_inf=False):
         if born_inf:
-            return df_rank.iloc[i:, :].to_html()
+            df_i = df_rank.iloc[i:, :].reset_index()
         else:
-            return pd.DataFrame().append(df_rank.iloc[i, :]).to_html()
+            df_i = df_rank.iloc[i, :].to_frame().transpose().reset_index()
+        return df_i.iloc[:, [-1, 0]].to_html(index=False), df_i.iloc[:, 1:-2].to_html(index=False)
 
     def set_match_res(self, match_info):
         try:

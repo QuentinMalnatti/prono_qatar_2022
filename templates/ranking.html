@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
 </head>
 <body>
     <h3>Pronostics Coupe du Monde</h3>
@@ -8,14 +9,26 @@
         <input type="submit" value="Voir les pronostics" />
     </form>
     <h2>Ranking</h2>
+    <div class="index">
+        <div class="first name"> {{first_name | safe}} </div>
+        <div class="first value">{{first | safe}} </div>
+    </div>
+    <br>
     <div class="rank">
-        {{first | safe}}
+        <div class="index">
+            <div class="second name"> {{second_name | safe}} </div>
+             <div class="second value"> {{second | safe}} </div>
+        </div>
         <br>
-        {{second | safe}}
+        <div class="index">
+            <div class="third name"> {{third_name | safe}} </div>
+            <div class="third value"> {{third | safe}} </div>
+        </div>
         <br>
-        {{third | safe}}
-        <br>
-        {{others | safe}}
+        <div class="index">
+            <div class="others name"> {{others_name | safe}} </div>
+            <div class="others value"> {{others | safe}} </div>
+        </div>
     </div>
 </body>
 </html>

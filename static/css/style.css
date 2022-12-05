@@ -1,0 +1,21 @@
+.rank .dataframe th {
+    display: None;
+}
+
+.name {
+    float: left;
+    margin : 0 10px 0 10px;
+}
+
+.name td {
+    width: 130px;
+}
+
+.values {
+    float: left;
+    margin : 0 10px 0 10px;
+}
+
+.value td {
+    width: 160px;
+}
