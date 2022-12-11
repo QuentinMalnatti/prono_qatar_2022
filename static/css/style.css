@@ -1,21 +1,52 @@
-.rank .dataframe th {
-    display: None;
+.header {
+    text-align: center;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+}
+
+h2, h3 {
+    color:  #2d88b5;
+}
+
+form {
+    position: fixed;
+    top: 10;
+    margin : 0 0 20px 400px;
+}
+
+.dataframe {
+    margin : 0 10px 0 10px;
+    text-align: left;
+}
+
+.dataframe th{
+    text-align: left;
+    position: sticky;
+    top: 0;
+    background: #2d88b5;
+    color: white;
 }
 
 .name {
     float: left;
-    margin : 0 10px 0 10px;
 }
 
 .name td {
-    width: 130px;
+    width: 120px;
 }
 
-.values {
+.value {
     float: left;
-    margin : 0 10px 0 10px;
 }
 
 .value td {
-    width: 160px;
+    width: 120px;
+}
+
+#df_prono td:nth-child(2) {
+    color: red;
 }

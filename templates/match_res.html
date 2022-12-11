@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h3>Pronostics Coupe du Monde</h3>
-    <h2>Résultats des Matches</h2>
-    <form action="http://127.0.0.1:5000">
-        <input type="submit" value="Voir le classement" />
-    </form>
+{% extends "base.html" %}
+{% block content %}
+    <h2>Résultats des Matchs</h2>
     <form method="POST">
         <select name=matches action="/">
             {% for match in matches %}
@@ -19,5 +11,4 @@
         <input type="submit" name="set_res" value="Valider">
     </form>
     {{res | safe}}
-</body>
-</html>
+{% endblock %}

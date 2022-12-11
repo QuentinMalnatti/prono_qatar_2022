@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h3>Pronostics Coupe du Monde</h3>
-    <form action="http://127.0.0.1:5000">
-        <input type="submit" value="Voir le classement" />
-    </form>
-    <form action="http://127.0.0.1:5000/match_res">
-        <input type="submit" value="Ajouter ou modifier un résultat" />
-    </form>
+{% extends "base.html" %}
+{% block content %}
     <h2>Pronostics</h2>
-    {{data | safe}}
-    {{res | safe}}
-</body>
-</html>
+    <div id="df_prono">{{prono | safe}}</div>
+{% endblock %}

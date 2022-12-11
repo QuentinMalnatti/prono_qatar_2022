@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h3>Prono Qatar 2022</h3>
+        <a href="http://127.0.0.1:5000">
+            <img src="static/assets/rank.png" title="Classement"/>
+        </a>
+        <a href="http://127.0.0.1:5000/prono">
+            <img src="static/assets/table.png" title="Pronostics"/>
+        </a>
+        <a href="http://127.0.0.1:5000/match_res">
+            <img src="static/assets/ball.png" title="Resultats"/>
+        </a>
+        <hr>
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

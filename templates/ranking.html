@@ -1,34 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-</head>
-<body>
-    <h3>Pronostics Coupe du Monde</h3>
-    <form action="http://127.0.0.1:5000/prono">
-        <input type="submit" value="Voir les pronostics" />
-    </form>
-    <h2>Ranking</h2>
+{% extends "base.html" %}
+{% block content %}
+    <h2>Classement</h2>
     <div class="index">
-        <div class="first name"> {{first_name | safe}} </div>
-        <div class="first value">{{first | safe}} </div>
+        <div class="name"> {{rank_name | safe}} </div>
+        <div class="value">{{rank_value | safe}} </div>
     </div>
-    <br>
-    <div class="rank">
-        <div class="index">
-            <div class="second name"> {{second_name | safe}} </div>
-             <div class="second value"> {{second | safe}} </div>
-        </div>
-        <br>
-        <div class="index">
-            <div class="third name"> {{third_name | safe}} </div>
-            <div class="third value"> {{third | safe}} </div>
-        </div>
-        <br>
-        <div class="index">
-            <div class="others name"> {{others_name | safe}} </div>
-            <div class="others value"> {{others | safe}} </div>
-        </div>
-    </div>
-</body>
-</html>
+{% endblock %}

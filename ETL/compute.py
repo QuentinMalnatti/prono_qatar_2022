@@ -30,6 +30,7 @@ class Compute(object):
             df_i = df_rank.iloc[i:, :].reset_index()
         else:
             df_i = df_rank.iloc[i, :].to_frame().transpose().reset_index()
+        df_i = df_i.rename(columns={"index": "Pseudo"})
         return df_i.iloc[:, [-1, 0]].to_html(index=False), df_i.iloc[:, 1:-2].to_html(index=False)
 
     def set_match_res(self, match_info):
@@ -39,10 +40,13 @@ class Compute(object):
             self.__res.loc[self.__res["Pseudo"] == match_info["matches"], "Verite"] = str(match_info["res"])
 
     def create_prono_display(self):
-        return TransformForDisplay.transform(self.__prono.copy())
+        df_prono = self.__res.copy().merge(self.__prono.copy(), how="right", on="Pseudo")
+        df_prono = df_prono.rename(columns={"Verite": "SCORE"})
+        return TransformForDisplay.transform(df_prono)
 
     def create_res_display(self):
-        return TransformForDisplay.transform(self.__res.copy())
+        df_res = self.__res.copy().rename(columns={"Verite": "SCORE"})
+        return TransformForDisplay.transform(df_res)
 
     def compute_ranking(self):
         return TransformForComputeRanking.transform(self.__prono, self.__res)
