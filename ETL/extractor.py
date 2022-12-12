@@ -15,15 +15,11 @@ class Extractor(object):
 
     @classmethod
     def extract_prono(cls):
-        df = pd.read_csv(cls.FILE_PATH_PRONO,sep=";")
-        df = df.drop(columns=["Horodateur"])
+        df = pd.read_csv(cls.FILE_PATH_PRONO)
         df = df.transpose().reset_index()
         df.columns = df.iloc[0]
+        df.drop(columns="Trung Skywalker",inplace=True)
         df = df.iloc[1:, :]
-
-        for col in df.columns:
-            if col != "Pseudo":
-                df[col] = df[col].astype('Int64')
 
         return df
 
